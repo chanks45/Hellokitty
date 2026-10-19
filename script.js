@@ -98,71 +98,15 @@
       .replaceAll("'", '&#039;');
   }
 
-  /* ================= ANIMASI & SUARA SAMBUTAN "Hello Alonica" ================= */
-  var alonicaAudio = new Audio('hello_alonica.mp3');
-  alonicaAudio.preload = 'auto';
-
-  function speakHelloAlonicaFallback() {
-    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') return;
-    try {
-      window.speechSynthesis.cancel();
-      var utter = new SpeechSynthesisUtterance('Hello Alonica');
-      utter.pitch = 1.38;
-      utter.rate = 0.96;
-      utter.volume = 0.95;
-      utter.lang = 'en-US';
-
-      var voices = window.speechSynthesis.getVoices() || [];
-      var preferredKeywords = [
-        'Google US English',
-        'Google UK English Female',
-        'Microsoft Zira',
-        'Samantha',
-        'Victoria',
-        'Karen',
-        'Female'
-      ];
-
-      var chosenVoice = null;
-      for (var i = 0; i < preferredKeywords.length && !chosenVoice; i++) {
-        var kw = preferredKeywords[i].toLowerCase();
-        chosenVoice = voices.find(function (v) {
-          return v && v.name && v.name.toLowerCase().indexOf(kw) !== -1;
-        });
-      }
-      if (!chosenVoice) {
-        chosenVoice = voices.find(function (v) {
-          return v && /^en(-|_)/i.test(v.lang || '');
-        });
-      }
-      if (chosenVoice) {
-        utter.voice = chosenVoice;
-      }
-
-      window.speechSynthesis.speak(utter);
-    } catch (_) {}
-  }
-
+  /* ================= ANIMASI SAMBUTAN "Hello Alonica" (TANPA SUARA) ================= */
   function speakHelloAlonica() {
-    try {
-      alonicaAudio.currentTime = 0;
-      var playPromise = alonicaAudio.play();
-      if (playPromise && typeof playPromise.then === 'function') {
-        playPromise.catch(function () {
-          speakHelloAlonicaFallback();
-        });
-      }
-    } catch (_) {
-      speakHelloAlonicaFallback();
-    }
+    // Suara Hello Alonica dinonaktifkan sesuai permintaan
   }
 
   function triggerAlonicaGreeting() {
     var banner = $('alonicaGreeting');
     if (banner) banner.classList.add('show');
     cockpit.classList.add('greeting-active');
-
-    speakHelloAlonica();
 
     if (greetingTimer) clearTimeout(greetingTimer);
     greetingTimer = setTimeout(function () {
@@ -175,13 +119,6 @@
   window.speakHelloAlonica = speakHelloAlonica;
 
   function setupKittyBowGreeting() {
-    if ('speechSynthesis' in window && typeof window.speechSynthesis.getVoices === 'function') {
-      window.speechSynthesis.getVoices();
-      window.speechSynthesis.onvoiceschanged = function () {
-        window.speechSynthesis.getVoices();
-      };
-    }
-
     var bow = $('kittyBow');
     if (!bow) return;
     bow.addEventListener('click', function (e) {
@@ -197,53 +134,37 @@
     });
   }
 
-  /* ================= CHIME SEATBELT LEMBUT (MARIMBA D5 - A5) ================= */
-  var audioCtx = null;
+  /* ================= ALARM SEATBELT MENGGUNAKAN FILE "belt.mp3" ================= */
+  var beltAudio = new Audio('belt.mp3');
+  beltAudio.preload = 'auto';
   var beltBeepTimer = null;
 
-  function getAudioContext() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function stopBeltSound() {
+    if (beltBeepTimer) {
+      clearInterval(beltBeepTimer);
+      beltBeepTimer = null;
     }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    return audioCtx;
+    try {
+      beltAudio.pause();
+      beltAudio.currentTime = 0;
+    } catch (e) {}
   }
 
   function playBeltChime() {
-    if (S.belt || !S.engine) return;
+    if (S.belt || !S.engine) {
+      stopBeltSound();
+      return;
+    }
     try {
-      var ctx = getAudioContext();
-      var now = ctx.currentTime;
-      var notes = [
-        { freq: 587, delay: 0.0, dur: 0.24 },
-        { freq: 880, delay: 0.19, dur: 0.34 }
-      ];
-
-      notes.forEach(function (n) {
-        var osc = ctx.createOscillator();
-        var sub = ctx.createOscillator();
-        var gain = ctx.createGain();
-
-        osc.type = 'sine';
-        sub.type = 'triangle';
-        osc.frequency.setValueAtTime(n.freq, now + n.delay);
-        sub.frequency.setValueAtTime(n.freq * 2, now + n.delay);
-
-        gain.gain.setValueAtTime(0.0001, now + n.delay);
-        gain.gain.linearRampToValueAtTime(0.075, now + n.delay + 0.018);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + n.delay + n.dur);
-
-        osc.connect(gain);
-        sub.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now + n.delay);
-        sub.start(now + n.delay);
-        osc.stop(now + n.delay + n.dur + 0.02);
-        sub.stop(now + n.delay + n.dur + 0.02);
-      });
+      // Jika file belt.mp3 masih sedang berputar, tunggu sampai selesai agar tidak terpotong
+      if (!beltAudio.paused && !beltAudio.ended && beltAudio.currentTime > 0) {
+        return;
+      }
+      beltAudio.currentTime = 0;
+      var playPromise = beltAudio.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function () {});
+      }
     } catch (e) {}
   }
 
@@ -254,10 +175,7 @@
         beltBeepTimer = setInterval(playBeltChime, 2200);
       }
     } else {
-      if (beltBeepTimer) {
-        clearInterval(beltBeepTimer);
-        beltBeepTimer = null;
-      }
+      stopBeltSound();
     }
   }
 
@@ -1702,7 +1620,7 @@
   window.setDoorLock(false);
   window.setOdometer(0);
 
-  // Sambutan otomatis saat HUD pertama kali boot
+  // Sambutan visual otomatis saat HUD pertama kali boot (tanpa suara)
   setTimeout(function () {
     triggerAlonicaGreeting();
   }, 350);

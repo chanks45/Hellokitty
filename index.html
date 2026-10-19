@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HELLO KITTY | Kawaii Round Head HUD</title>
+  <title>HELLO KITTY | Kawaii Rectangular Card HUD</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
 <body>
   <main id="cockpit" class="theme-white engine-off hp-high" aria-label="Vehicle HUD">
 
-    <!-- FLOATING MINI AUDIO PILL DI ATAS KEPALA BULAT HELLO KITTY -->
+    <!-- FLOATING MINI AUDIO PILL DI ATAS KARTU HELLO KITTY -->
     <div id="mini-music-pill" class="mini-music-pill no-drag" aria-label="Mini Audio Controller">
       <div class="mini-pill-left">
         <span id="miniSourceBadge" class="mini-source-badge">📻 RADIO</span>
@@ -51,6 +51,7 @@
 
       <!-- PANEL DUAL-MODE AUDIO (RADIO FM & YOUTUBE) -->
       <section id="music-panel" class="music-panel no-drag" aria-label="Dual Mode Audio Player">
+        <!-- Tab Navigasi Audio -->
         <div class="audio-tabs" role="tablist">
           <button id="tabBtnRadio" class="audio-tab active" type="button" data-tab="radio" role="tab" aria-selected="true">
             📻 Radio FM
@@ -90,12 +91,14 @@
             <button id="btn-radio-add-toggle" class="music-small-btn music-add-toggle" type="button" title="Tambah saluran radio via link">＋</button>
           </div>
 
+          <!-- Form Tambah Saluran Radio Kustom -->
           <div id="radio-add-row" class="music-add-row hide">
             <input id="radio-url-input" type="text" placeholder="Link Stream Radio (http/https)" autocomplete="off">
             <input id="radio-title-input" type="text" placeholder="Nama Radio (opsional)" autocomplete="off">
             <button id="btn-radio-add" class="music-small-btn music-add-primary" type="button" title="Simpan & Putar">▶</button>
           </div>
 
+          <!-- Daftar Playlist Radio -->
           <div class="music-playlist-head">
             <span>Saluran Radio</span>
             <button id="btn-radio-clear" class="music-text-btn" type="button" title="Hapus semua radio tambahan">↺</button>
@@ -161,11 +164,11 @@
       <div id="settingsHint">Klik kanan untuk menutup menu</div>
       <div class="settings-footer">
         <span>KITTY HUD OS</span>
-        <span>ROUND SANRIO EDITION</span>
+        <span>SANRIO STYLE</span>
       </div>
     </div>
 
-    <!-- WRAPPER UTAMA KEPALA BULAT HELLO KITTY -->
+    <!-- WRAPPER UTAMA KARTU HELLO KITTY -->
     <div class="kitty-wrapper">
 
       <!-- PITA POP-UP SAMBUTAN "Hello Alonica" -->
@@ -223,14 +226,19 @@
         </svg>
       </div>
 
-      <!-- PITA BESAR IKONIK HELLO KITTY DI PANGKAL TELINGA KANAN -->
+      <!-- PITA BESAR IKONIK HELLO KITTY (SIGNATURE SANRIO BOW) DI PANGKAL TELINGA KANAN -->
       <div id="kittyBow" class="kitty-bow no-drag" role="button" tabindex="0" title="Klik Pita untuk sapaan Hello Alonica!">
         <svg viewBox="0 0 140 100" aria-hidden="true">
+          <!-- Kelopak Kiri Pita -->
           <path class="bow-loop left-loop" d="M 66 48 C 52 14, 10 12, 10 48 C 10 84, 52 84, 66 54 Z" />
+          <!-- Kelopak Kanan Pita -->
           <path class="bow-loop right-loop" d="M 74 48 C 88 14, 130 12, 130 48 C 130 84, 88 84, 74 54 Z" />
+          <!-- Detail Lekukan Dalam Pita (Persis Referensi Sanrio) -->
           <ellipse class="bow-crease" cx="46" cy="50" rx="10" ry="13" />
           <ellipse class="bow-crease" cx="94" cy="50" rx="10" ry="13" />
+          <!-- Simpul Bulat Tengah Pita -->
           <circle class="bow-center" cx="70" cy="51" r="17" />
+          <!-- Kilau Halus pada Pita -->
           <ellipse class="bow-shine" cx="32" cy="32" rx="7" ry="4" transform="rotate(-24 32 32)" />
           <ellipse class="bow-shine" cx="65" cy="44" rx="5" ry="3" transform="rotate(-20 65 44)" />
         </svg>
@@ -255,19 +263,22 @@
         <span class="whisker w3"></span>
       </div>
 
-      <!-- BODI KEPALA BULAT HELLO KITTY -->
+      <!-- BODI KARTU KOTAK PERSEGI PANJANG MEMBULAT HELLO KITTY -->
       <div class="hud-card head">
+        <!-- Notifikasi Internal HUD -->
         <div id="hudNotice" class="hud-notice" role="status" aria-live="polite"></div>
 
+        <!-- Garis terpaan angin pastel saat mengebut -->
         <div class="wind-lines" aria-hidden="true">
           <span></span><span></span><span></span><span></span>
         </div>
 
+        <!-- Plester Luka Imut Bermotif Hati saat Health < 80% -->
         <div class="bandage" aria-hidden="true">
           <span class="bandage-heart">♥</span>
         </div>
 
-        <!-- AREA ATAS 1: BAR STATUS KAPSUL DI DAHI BULAT -->
+        <!-- AREA ATAS 1: BAR STATUS DAHI -->
         <div class="forehead-bar">
           <span class="hp-pill" title="Vehicle Health">
             <span class="hp-heart">❤</span>
@@ -290,6 +301,7 @@
                 <path d="M7 3l4 3-2 4 6 7 3-2 2 3-4 3-9-10 1-4-3-2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
               </svg>
             </div>
+            <!-- Ikon Kunci Pintu / Vehicle Door Lock -->
             <div id="doorLockIcon" class="vehicle-indicator unlocked" title="Doors: Unlocked">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path id="lockShackle" d="M7 11V7a5 5 0 0 1 9.9-1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
@@ -302,19 +314,22 @@
           <span class="kitty-tag">KAWAII</span>
         </div>
 
-        <!-- AREA ATAS 2: WAJAH IKONIK HELLO KITTY -->
+        <!-- AREA ATAS 2: WAJAH IKONIK HELLO KITTY (MATA OVAL HITAM & HIDUNG KUNING TANPA MULUT) -->
         <div class="face-zone">
+          <!-- Gelembung Hati & Bintang Mode Santai / Daydreaming saat Mesin Mati -->
           <div class="daydream-group" aria-hidden="true">
             <span class="dream-bubble d1">♥</span>
             <span class="dream-bubble d2">✦</span>
             <span class="dream-bubble d3">♥</span>
           </div>
 
+          <!-- Rona Pipi Kiri -->
           <div class="cheek left">
             <span class="blush-lines">//</span>
             <span class="hunger-sweat"></span>
           </div>
 
+          <!-- Mata Oval Hitam Kiri -->
           <div class="eye-wrap left-eye">
             <div class="kitty-eye">
               <span class="eye-shine big"></span>
@@ -324,12 +339,14 @@
             <span class="sweat-drop"></span>
           </div>
 
+          <!-- Hidung Oval Kuning Khas Hello Kitty (Tanpa Mulut) -->
           <div class="nose-wrap">
             <div id="kittyNose" class="kitty-nose" title="Headlight Glow">
               <span class="nose-highlight"></span>
             </div>
           </div>
 
+          <!-- Mata Oval Hitam Kanan -->
           <div class="eye-wrap right-eye">
             <div class="kitty-eye">
               <span class="eye-shine big"></span>
@@ -339,17 +356,20 @@
             <span class="sweat-drop"></span>
           </div>
 
+          <!-- Rona Pipi Kanan -->
           <div class="cheek right">
             <span class="blush-lines">//</span>
             <span class="hunger-sweat"></span>
           </div>
         </div>
 
-        <!-- AREA TENGAH: LAYAR KECEPATAN MELENGKUNG -->
+        <!-- AREA TENGAH: BINGKAI LAYAR KECEPATAN, HEART CHARMS, & STRAWBERRY MILK WAVE -->
         <div class="screen-container">
           <div class="screen-frame">
+            <!-- Barisan Charm Hati Sanrio (Pengganti Gigi) -->
             <div id="heartCharms" class="heart-charms" aria-label="Health Charms"></div>
 
+            <!-- Layar Angka Kecepatan -->
             <div class="screen">
               <div class="speed-wrap">
                 <div id="speedValue">000</div>
@@ -359,6 +379,7 @@
                 </div>
               </div>
 
+              <!-- Gelombang Susu Stroberi & Pita Sutra Berkilau (Pengganti Lelehan Madu) -->
               <svg class="milk-wave-svg" viewBox="0 0 240 50" preserveAspectRatio="none" aria-hidden="true">
                 <path id="milkWaveBack" d="M0 50 L0 34 Q120 24 240 34 L240 50 Z" />
                 <path id="milkWaveFront" d="M0 50 L0 40 L240 40 L240 50 Z" />
@@ -367,7 +388,7 @@
           </div>
         </div>
 
-        <!-- AREA BAWAH: DAGU MELENGKUNG (RPM, FUEL, GEAR, ODOMETER) -->
+        <!-- AREA BAWAH: BAR RPM PITA, FUEL, GEAR, & ODOMETER -->
         <div class="chin">
           <div class="rpm-track" title="RPM">
             <div id="rpmFill">
@@ -395,7 +416,7 @@
           </div>
         </div>
 
-        <!-- LENCANA KALUNG PITA BULAT DI BAWAH DAGU -->
+        <!-- LENCANA KALUNG PITA KECIL PROPORSIONAL (TANPA TEKS NAMA BENGKEL/RESTORAN) -->
         <div class="collar-zone">
           <div class="collar-strap"></div>
           <div class="kitty-charm-badge">
